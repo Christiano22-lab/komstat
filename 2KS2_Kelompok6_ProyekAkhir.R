@@ -1,10 +1,11 @@
-library(shiny)
+THIS SHOULD BE A LINTER ERRORlibrary(shiny)
 library(shinydashboard)
 library(ggplot2)
 library(dplyr)
 library(readxl)
 library(lmtest)
 library(car)
+library(DT)
 
 # Modern CSS styling
 modern_css <- "
@@ -434,16 +435,16 @@ process_user_custom_data <- function(data, num_vars, var_labels) {
 
 # UI: Bagian Antarmuka Pengguna
 ui <- dashboardPage(
-  dashboardHeader(title = "🚀 Dashboard Analisis Modern"),
+  dashboardHeader(title = "Dashboard Analisis Modern"),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("🏠 Beranda", tabName = "home", icon = icon("home")),
-      menuItem("📊 Metadata Statistik", tabName = "metadata", icon = icon("info-circle")),
-      menuItem("📈 Data Contoh", tabName = "example_data", icon = icon("database")),
-      menuItem("📁 Import Data Custom", tabName = "import_custom", icon = icon("file-excel")),
-      menuItem("📋 Statistik Deskriptif", tabName = "desc_stats", icon = icon("chart-bar")),
-      menuItem("📉 Visualisasi Data", tabName = "visualization", icon = icon("chart-line")),
-      menuItem("🔬 Model Regresi & Hasil", tabName = "regression", icon = icon("cogs"))
+      menuItem("Beranda", tabName = "home", icon = icon("home")),
+      menuItem("Metadata Statistik", tabName = "metadata", icon = icon("info-circle")),
+      menuItem("Data Contoh", tabName = "example_data", icon = icon("database")),
+      menuItem("Import Data Custom", tabName = "import_custom", icon = icon("file-excel")),
+      menuItem("Statistik Deskriptif", tabName = "desc_stats", icon = icon("chart-bar")),
+      menuItem("Visualisasi Data", tabName = "visualization", icon = icon("chart-line")),
+      menuItem("Model Regresi & Hasil", tabName = "regression", icon = icon("cogs"))
     )
   ),
   dashboardBody(
@@ -454,10 +455,10 @@ ui <- dashboardPage(
       # Halaman Beranda
       tabItem(tabName = "home",
               fluidRow(
-                box(title = "✨ Selamat Datang di Dashboard Analisis Modern", 
+                box(title = "Selamat Datang di Dashboard Analisis Modern", 
                     status = "primary", solidHeader = TRUE, width = 12,
                     div(style = "text-align: center; padding: 20px;",
-                        h1("📊 Platform Analisis Statistik Terpadu", style = "color: #2C3E50; margin-bottom: 20px;"),
+                        h1(icon("chart-line"), " Platform Analisis Statistik Terpadu", style = "color: #2C3E50; margin-bottom: 20px;"),
                         p("Dashboard modern ini memungkinkan Anda menganalisis hubungan kompleks antara berbagai faktor dengan menggunakan teknologi statistik terdepan.", 
                           style = "font-size: 16px; color: #34495E; margin-bottom: 30px;")
                     )
@@ -465,42 +466,42 @@ ui <- dashboardPage(
               ),
               
               fluidRow(
-                box(title = "🎯 Fitur Unggulan Platform", status = "info", solidHeader = TRUE, width = 6,
+                box(title = "Fitur Unggulan Platform", status = "info", solidHeader = TRUE, width = 6,
                     div(class = "stats-highlight",
-                        h4("✅ Analisis Data Contoh Terintegrasi", style = "margin: 0;"),
+                        h4(icon("check-circle"), " Analisis Data Contoh Terintegrasi", style = "margin: 0;"),
                         p("Eksplorasi berbagai jenis beras dengan faktor cuaca", style = "margin: 5px 0 0 0;")
                     ),
                     div(class = "stats-highlight",
-                        h4("🔧 Import Data Kustom Fleksibel", style = "margin: 0;"),
+                        h4(icon("upload"), " Import Data Kustom Fleksibel", style = "margin: 0;"),
                         p("Upload dan analisis data Anda sendiri", style = "margin: 5px 0 0 0;")
                     ),
                     div(class = "stats-highlight",
-                        h4("📈 Visualisasi Data Interaktif", style = "margin: 0;"),
+                        h4(icon("chart-bar"), " Visualisasi Data Interaktif", style = "margin: 0;"),
                         p("Grafik modern dan interpretasi mendalam", style = "margin: 5px 0 0 0;")
                     ),
                     div(class = "stats-highlight",
-                        h4("🧮 Model Regresi Linier Berganda", style = "margin: 0;"),
+                        h4(icon("calculator"), " Model Regresi Linier Berganda", style = "margin: 0;"),
                         p("Analisis inferensia dengan validasi model", style = "margin: 5px 0 0 0;")
                     )
                 ),
                 
-                box(title = "📚 Panduan Cepat", status = "warning", solidHeader = TRUE, width = 6,
-                    h4("🚀 Langkah-langkah Penggunaan:"),
+                box(title = "Panduan Cepat", status = "warning", solidHeader = TRUE, width = 6,
+                    h4(icon("rocket"), " Langkah-langkah Penggunaan:"),
                     tags$ol(
-                      tags$li("📊 Kunjungi tab 'Metadata Statistik' untuk memahami konsep analisis"),
-                      tags$li("📈 Pilih 'Data Contoh' untuk eksplorasi analisis beras dan cuaca"),
-                      tags$li("📁 Atau gunakan 'Import Data Custom' untuk data Anda sendiri"),
-                      tags$li("📋 Lihat 'Statistik Deskriptif' untuk ringkasan data"),
-                      tags$li("📉 Eksplorasi 'Visualisasi Data' untuk pola dan tren"),
-                      tags$li("🔬 Analisis lengkap di 'Model Regresi & Hasil'")
+                      tags$li(icon("info-circle"), " Kunjungi tab 'Metadata Statistik' untuk memahami konsep analisis"),
+                      tags$li(icon("database"), " Pilih 'Data Contoh' untuk eksplorasi analisis beras dan cuaca"),
+                      tags$li(icon("file-upload"), " Atau gunakan 'Import Data Custom' untuk data Anda sendiri"),
+                      tags$li(icon("chart-bar"), " Lihat 'Statistik Deskriptif' untuk ringkasan data"),
+                      tags$li(icon("chart-line"), " Eksplorasi 'Visualisasi Data' untuk pola dan tren"),
+                      tags$li(icon("cogs"), " Analisis lengkap di 'Model Regresi & Hasil'")
                     ),
                     br(),
-                    downloadButton("downloadGuidebook", "📥 Unduh Panduan Lengkap", class = "btn-primary btn-lg")
+                    downloadButton("downloadGuidebook", HTML(paste(icon("download"), "Unduh Panduan Lengkap")), class = "btn-primary btn-lg")
                 )
               ),
               
               fluidRow(
-                box(title = "🎥 Tutorial Video Interaktif", status = "success", solidHeader = TRUE, width = 12,
+                box(title = "Tutorial Video Interaktif", status = "success", solidHeader = TRUE, width = 12,
                     div(style = "text-align: center;",
                         tags$iframe(width = "100%", height = "400", 
                                    src = "https://www.youtube.com/embed/S5Tk0lxBLfA?si=DTkoaFLNXQ-3fAb2", 
@@ -691,12 +692,12 @@ ui <- dashboardPage(
               ),
               
               fluidRow(
-                box(title = "📊 Data Contoh yang Telah Dibersihkan", status = "success", solidHeader = TRUE, width = 12,
+                box(title = "Data Contoh yang Telah Dibersihkan", status = "success", solidHeader = TRUE, width = 12,
                     div(style = "margin-bottom: 20px;",
-                        h4("📋 Preview Data Analisis:", style = "color: #2C3E50; margin-bottom: 10px;"),
-                        p("Berikut adalah 10 baris pertama dari data yang telah dibersihkan dan siap untuk analisis:", style = "color: #34495E;")
+                        h4(icon("table"), " Data Analisis Lengkap:", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("Semua data yang telah dibersihkan dan siap untuk analisis dengan fitur pencarian dan sorting:", style = "color: #34495E;")
                     ),
-                    tableOutput("exampleCleanedData")
+                    DT::dataTableOutput("exampleCleanedData")
                 )
               )
       ),
@@ -816,12 +817,12 @@ ui <- dashboardPage(
               ),
               
               fluidRow(
-                box(title = "📊 Preview Data yang Telah Dibersihkan", status = "success", solidHeader = TRUE, width = 12,
+                box(title = "Data yang Telah Dibersihkan", status = "success", solidHeader = TRUE, width = 12,
                     div(style = "margin-bottom: 20px;",
-                        h4("👀 Preview Data Siap Analisis:", style = "color: #2C3E50; margin-bottom: 10px;"),
-                        p("Berikut adalah preview 10 baris pertama dari data Anda yang telah dibersihkan dan siap untuk dianalisis:", style = "color: #34495E;")
+                        h4(icon("table"), " Data Siap Analisis:", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("Semua data Anda yang telah dibersihkan dan siap untuk dianalisis dengan fitur pencarian dan sorting:", style = "color: #34495E;")
                     ),
-                    tableOutput("customCleanedData")
+                    DT::dataTableOutput("customCleanedData")
                 )
               )
       ),
