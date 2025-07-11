@@ -1,4 +1,4 @@
-THIS SHOULD BE A LINTER ERRORlibrary(shiny)
+library(shiny)
 library(shinydashboard)
 library(ggplot2)
 library(dplyr)
@@ -1248,14 +1248,14 @@ server <- function(input, output, session) {
       custom_num_vars(num_vars)
       
       showModal(modalDialog(
-        title = "Berhasil! 🎉",
+        title = "Berhasil!",
         paste("Data Anda dengan", num_vars, "faktor telah berhasil diproses dan siap dianalisis!"),
         easyClose = TRUE,
         footer = NULL
       ))
     }, error = function(e) {
       showModal(modalDialog(
-        title = "Oops! Ada Masalah 😅",
+        title = "Ada Masalah",
         paste("Gagal memproses data. Pastikan:", 
               "\n• File Excel memiliki format yang benar", 
               "\n• Semua data berupa angka", 
@@ -1270,9 +1270,9 @@ server <- function(input, output, session) {
   output$variable_info <- renderText({
     if (!is.null(custom_labels())) {
       labels <- custom_labels()
-      info_text <- "✅ Variabel yang Akan Dianalisis:\n\n"
-      info_text <- paste0(info_text, "🎯 Target Prediksi: ", labels[["Y"]], "\n")
-      info_text <- paste0(info_text, "\n📊 Faktor-faktor yang Mempengaruhi:\n")
+      info_text <- "Variabel yang Akan Dianalisis:\n\n"
+      info_text <- paste0(info_text, "Target Prediksi: ", labels[["Y"]], "\n")
+      info_text <- paste0(info_text, "\nFaktor-faktor yang Mempengaruhi:\n")
       
       x_vars <- names(labels)[names(labels) != "Y"]
       for (i in 1:length(x_vars)) {
@@ -1304,7 +1304,7 @@ server <- function(input, output, session) {
     return(NULL)
   })
   
-  output$exampleCleanedData <- renderTable({
+  output$exampleCleanedData <- DT::renderDataTable({
     data <- get_example_data_with_selected_y()
     if (is.null(data)) return(NULL)
     
@@ -1324,12 +1324,42 @@ server <- function(input, output, session) {
                              y_var_name)
     
     colnames(display_data) <- c(y_display_name, "Suhu Rata-rata (°C)", "Curah Hujan (mm)")
-    head(display_data, 10)
+    
+    DT::datatable(display_data, 
+                  options = list(
+                    pageLength = 10,
+                    searchHighlight = TRUE,
+                    dom = 'Bfrtip',
+                    buttons = c('copy', 'csv', 'excel'),
+                    language = list(
+                      search = "Cari:",
+                      lengthMenu = "Tampilkan _MENU_ data per halaman",
+                      info = "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                      paginate = list(previous = "Sebelumnya", next = "Selanjutnya")
+                    )
+                  ),
+                  rownames = FALSE,
+                  class = 'cell-border stripe')
   })
   
-  output$customCleanedData <- renderTable({
+  output$customCleanedData <- DT::renderDataTable({
     req(custom_data())
-    head(custom_data(), 10)
+    
+    DT::datatable(custom_data(), 
+                  options = list(
+                    pageLength = 10,
+                    searchHighlight = TRUE,
+                    dom = 'Bfrtip',
+                    buttons = c('copy', 'csv', 'excel'),
+                    language = list(
+                      search = "Cari:",
+                      lengthMenu = "Tampilkan _MENU_ data per halaman",
+                      info = "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                      paginate = list(previous = "Sebelumnya", next = "Selanjutnya")
+                    )
+                  ),
+                  rownames = FALSE,
+                  class = 'cell-border stripe')
   })
   
   selected_data_stats <- reactive({
@@ -1369,7 +1399,7 @@ server <- function(input, output, session) {
       return()
     }
     
-    cat("📊 RINGKASAN STATISTIK DATA\n")
+    cat("RINGKASAN STATISTIK DATA\n")
     cat(paste(rep("=", 40), collapse = ""), "\n\n")
     
     if (input$data_choice_stats == "example") {
@@ -1384,19 +1414,19 @@ server <- function(input, output, session) {
                                "Beras_Y6" = "Beras Kualitas Super II",
                                y_var_name)
       
-      cat("🎯 Variabel Target:", y_display_name, "\n")
+      cat("Variabel Target:", y_display_name, "\n")
       cat("   Min: Rp", format(min(data$Selected_Y, na.rm = TRUE), big.mark = ","), "\n")
       cat("   Max: Rp", format(max(data$Selected_Y, na.rm = TRUE), big.mark = ","), "\n")
       cat("   Rata-rata: Rp", format(round(mean(data$Selected_Y, na.rm = TRUE), 0), big.mark = ","), "\n")
       cat("   Median: Rp", format(round(median(data$Selected_Y, na.rm = TRUE), 0), big.mark = ","), "\n\n")
       
-      cat("🌡 Suhu Rata-rata:\n")
+      cat("Suhu Rata-rata:\n")
       cat("   Min:", min(data$Tavg_X1, na.rm = TRUE), "°C\n")
       cat("   Max:", max(data$Tavg_X1, na.rm = TRUE), "°C\n")
       cat("   Rata-rata:", round(mean(data$Tavg_X1, na.rm = TRUE), 2), "°C\n")
       cat("   Median:", round(median(data$Tavg_X1, na.rm = TRUE), 2), "°C\n\n")
       
-      cat("🌧 Curah HUJAN:\n")
+      cat("Curah Hujan:\n")
       cat("   Min:", min(data$RR_X2, na.rm = TRUE), "mm\n")
       cat("   Max:", max(data$RR_X2, na.rm = TRUE), "mm\n")
       cat("   Rata-rata:", round(mean(data$RR_X2, na.rm = TRUE), 2), "mm\n")
@@ -1404,7 +1434,7 @@ server <- function(input, output, session) {
       
     } else if ("Y" %in% colnames(data) && !is.null(custom_labels())) {
       labels <- custom_labels()
-      cat("🎯 Variabel Target:", labels[["Y"]], "\n")
+      cat("Variabel Target:", labels[["Y"]], "\n")
       cat("   Min:", min(data$Y, na.rm = TRUE), "\n")
       cat("   Max:", max(data$Y, na.rm = TRUE), "\n")
       cat("   Rata-rata:", round(mean(data$Y, na.rm = TRUE), 2), "\n")
@@ -1413,7 +1443,7 @@ server <- function(input, output, session) {
       x_vars <- colnames(data)[colnames(data) != "Y"]
       for (var in x_vars) {
         var_label <- labels[[var]]
-        cat("📈", var_label, ":\n")
+        cat(var_label, ":\n")
         cat("   Min:", min(data[[var]], na.rm = TRUE), "\n")
         cat("   Max:", max(data[[var]], na.rm = TRUE), "\n")
         cat("   Rata-rata:", round(mean(data[[var]], na.rm = TRUE), 2), "\n")
