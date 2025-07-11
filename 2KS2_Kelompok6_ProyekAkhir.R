@@ -6,6 +6,339 @@ library(readxl)
 library(lmtest)
 library(car)
 
+# Modern CSS styling
+modern_css <- "
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Global Styling */
+body, .content-wrapper, .right-side {
+  font-family: 'Inter', sans-serif !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+/* Header Styling */
+.main-header .navbar {
+  background: linear-gradient(90deg, #2C3E50, #3498DB) !important;
+  border: none !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+}
+
+.main-header .navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
+  background: white !important;
+}
+
+.main-header .logo {
+  background: linear-gradient(90deg, #2C3E50, #3498DB) !important;
+  color: white !important;
+  border: none !important;
+  font-weight: 600 !important;
+  font-size: 18px !important;
+}
+
+/* Sidebar Styling */
+.main-sidebar, .left-side {
+  background: linear-gradient(180deg, #2C3E50 0%, #34495E 100%) !important;
+}
+
+.sidebar-menu > li > a {
+  color: #ECF0F1 !important;
+  border-left: 3px solid transparent !important;
+  transition: all 0.3s ease !important;
+  font-weight: 500 !important;
+}
+
+.sidebar-menu > li:hover > a, .sidebar-menu > li.active > a {
+  background: rgba(52, 152, 219, 0.2) !important;
+  border-left: 3px solid #3498DB !important;
+  color: white !important;
+}
+
+.sidebar-menu > li > a > .fa {
+  color: #3498DB !important;
+}
+
+/* Content Area */
+.content-wrapper {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+  min-height: 100vh !important;
+}
+
+.content {
+  padding: 20px !important;
+}
+
+/* Box Styling */
+.box {
+  border-radius: 15px !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+  border: none !important;
+  margin-bottom: 25px !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  background: white !important;
+}
+
+.box:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+}
+
+.box-header {
+  border-radius: 15px 15px 0 0 !important;
+  padding: 20px !important;
+}
+
+.box-header.with-border {
+  border-bottom: 2px solid #ecf0f1 !important;
+}
+
+.box-primary > .box-header {
+  background: linear-gradient(135deg, #3498DB, #2980B9) !important;
+  color: white !important;
+}
+
+.box-info > .box-header {
+  background: linear-gradient(135deg, #1ABC9C, #16A085) !important;
+  color: white !important;
+}
+
+.box-success > .box-header {
+  background: linear-gradient(135deg, #2ECC71, #27AE60) !important;
+  color: white !important;
+}
+
+.box-warning > .box-header {
+  background: linear-gradient(135deg, #F39C12, #E67E22) !important;
+  color: white !important;
+}
+
+.box-title {
+  font-weight: 600 !important;
+  font-size: 18px !important;
+  margin: 0 !important;
+}
+
+.box-body {
+  padding: 25px !important;
+}
+
+/* Button Styling */
+.btn {
+  border-radius: 25px !important;
+  font-weight: 500 !important;
+  padding: 12px 30px !important;
+  transition: all 0.3s ease !important;
+  border: none !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3498DB, #2980B9) !important;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3) !important;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #2980B9, #1F618D) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4) !important;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #2ECC71, #27AE60) !important;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3) !important;
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #27AE60, #1E8449) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4) !important;
+}
+
+.btn-lg {
+  padding: 15px 40px !important;
+  font-size: 16px !important;
+}
+
+/* Form Elements */
+.form-control {
+  border-radius: 10px !important;
+  border: 2px solid #ecf0f1 !important;
+  padding: 12px 15px !important;
+  transition: all 0.3s ease !important;
+  font-size: 14px !important;
+}
+
+.form-control:focus {
+  border-color: #3498DB !important;
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25) !important;
+}
+
+.form-group label {
+  font-weight: 600 !important;
+  color: #2C3E50 !important;
+  margin-bottom: 8px !important;
+}
+
+/* Table Styling */
+.table {
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1) !important;
+}
+
+.table thead th {
+  background: linear-gradient(135deg, #34495E, #2C3E50) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  border: none !important;
+  padding: 15px !important;
+}
+
+.table tbody tr {
+  transition: background-color 0.3s ease !important;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(52, 152, 219, 0.1) !important;
+}
+
+.table tbody td {
+  padding: 12px 15px !important;
+  border-color: #ecf0f1 !important;
+}
+
+/* Radio Button Styling */
+.radio {
+  margin-bottom: 15px !important;
+}
+
+.radio label {
+  padding-left: 30px !important;
+  font-weight: 500 !important;
+  color: #2C3E50 !important;
+}
+
+.radio input[type='radio'] {
+  margin-left: -30px !important;
+  transform: scale(1.2) !important;
+}
+
+/* Alert/Info Styling */
+p {
+  color: #2C3E50 !important;
+  line-height: 1.6 !important;
+}
+
+em {
+  color: #7F8C8D !important;
+  font-style: italic !important;
+}
+
+/* Numeric Input Styling */
+.shiny-input-container {
+  margin-bottom: 20px !important;
+}
+
+/* File Input Styling */
+.btn-file {
+  background: linear-gradient(135deg, #9B59B6, #8E44AD) !important;
+  border-radius: 20px !important;
+  color: white !important;
+  font-weight: 500 !important;
+}
+
+/* Progress and Loading */
+.progress {
+  border-radius: 10px !important;
+  height: 8px !important;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, #3498DB, #2980B9) !important;
+}
+
+/* Text Output Styling */
+pre {
+  background: #f8f9fa !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 20px !important;
+  font-family: 'Monaco', 'Consolas', monospace !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  color: #2C3E50 !important;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.1) !important;
+}
+
+/* Video Styling */
+iframe {
+  border-radius: 15px !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content {
+    padding: 15px !important;
+  }
+  
+  .box {
+    margin-bottom: 20px !important;
+  }
+  
+  .btn {
+    padding: 10px 20px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.box {
+  animation: fadeInUp 0.6s ease-out !important;
+}
+
+/* Metadata specific styling */
+.metadata-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border-radius: 15px !important;
+  padding: 25px !important;
+  margin-bottom: 20px !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+.metadata-item {
+  background: rgba(255,255,255,0.1) !important;
+  border-radius: 10px !important;
+  padding: 15px !important;
+  margin-bottom: 15px !important;
+  border-left: 4px solid #3498DB !important;
+}
+
+.stats-highlight {
+  background: linear-gradient(135deg, #FF6B6B, #FF8E53) !important;
+  color: white !important;
+  padding: 15px !important;
+  border-radius: 10px !important;
+  margin: 10px 0 !important;
+  text-align: center !important;
+  font-weight: 600 !important;
+}
+</style>
+"
+
 # Fungsi untuk menghapus pencilan menggunakan IQR
 remove_outliers <- function(data, variable) {
   cat("\nMengolah variabel:", variable, "\n")
@@ -101,174 +434,636 @@ process_user_custom_data <- function(data, num_vars, var_labels) {
 
 # UI: Bagian Antarmuka Pengguna
 ui <- dashboardPage(
-  dashboardHeader(title = "Dashboard Analisis Regresi"),
+  dashboardHeader(title = "🚀 Dashboard Analisis Modern"),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Beranda", tabName = "home", icon = icon("home")),
-      menuItem("Data Contoh", tabName = "example_data", icon = icon("database")),
-      menuItem("Import Data Custom", tabName = "import_custom", icon = icon("file-excel")),
-      menuItem("Statistik Deskriptif", tabName = "desc_stats", icon = icon("chart-bar")),
-      menuItem("Visualisasi Data", tabName = "visualization", icon = icon("chart-line")),
-      menuItem("Model Regresi & Hasil", tabName = "regression", icon = icon("cogs"))
+      menuItem("🏠 Beranda", tabName = "home", icon = icon("home")),
+      menuItem("📊 Metadata Statistik", tabName = "metadata", icon = icon("info-circle")),
+      menuItem("📈 Data Contoh", tabName = "example_data", icon = icon("database")),
+      menuItem("📁 Import Data Custom", tabName = "import_custom", icon = icon("file-excel")),
+      menuItem("📋 Statistik Deskriptif", tabName = "desc_stats", icon = icon("chart-bar")),
+      menuItem("📉 Visualisasi Data", tabName = "visualization", icon = icon("chart-line")),
+      menuItem("🔬 Model Regresi & Hasil", tabName = "regression", icon = icon("cogs"))
     )
   ),
   dashboardBody(
+    tags$head(
+      tags$style(HTML(modern_css))
+    ),
     tabItems(
       # Halaman Beranda
       tabItem(tabName = "home",
-              h2("Selamat datang di Dashboard Analisis"),
-              p("Dashboard ini memungkinkan Anda untuk menganalisis hubungan antara berbagai faktor dengan variabel yang ingin Anda teliti."),
-              p("Fitur utama:"),
-              p("1. Lihat contoh pengolahan data pada tab 'Data Contoh' dengan pilihan berbagai jenis beras."),
-              p("2. Unggah data custom Anda dengan variabel yang dapat disesuaikan pada tab 'Import Data Custom'."),
-              p("3. Analisis statistik, visualisasi, dan model regresi linier tersedia pada tab lainnya."),
+              fluidRow(
+                box(title = "✨ Selamat Datang di Dashboard Analisis Modern", 
+                    status = "primary", solidHeader = TRUE, width = 12,
+                    div(style = "text-align: center; padding: 20px;",
+                        h1("📊 Platform Analisis Statistik Terpadu", style = "color: #2C3E50; margin-bottom: 20px;"),
+                        p("Dashboard modern ini memungkinkan Anda menganalisis hubungan kompleks antara berbagai faktor dengan menggunakan teknologi statistik terdepan.", 
+                          style = "font-size: 16px; color: #34495E; margin-bottom: 30px;")
+                    )
+                )
+              ),
               
-              br(),
-              h4("Panduan Penggunaan:"),
-              p("Unduh panduan lengkap untuk menggunakan dashboard ini:"),
-              downloadButton("downloadGuidebook", "Unduh Guidebook (PDF)", class = "btn-primary"),
-              br(),
-              br(),
-              h4("Video Tutorial:"),
-              tags$iframe(width = "560", height = "315", src = "https://www.youtube.com/embed/S5Tk0lxBLfA?si=DTkoaFLNXQ-3fAb2", 
-                          frameborder = "0", allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", 
-                          allowfullscreen = TRUE, 
-                          style = "max-width: 100%"),
-              br(),
-              h4("Cara Menggunakan Dashboard:"),
-              p("• Pilih jenis beras yang ingin dianalisis pada data contoh"),
-              p("• Atau tentukan berapa banyak faktor (variabel X) yang ingin Anda analisis untuk data custom"),
-              p("• Berikan nama yang mudah dipahami untuk setiap variabel"),
-              p("• Siapkan file Excel dengan format: Y, X1, X2, X3, ... "),
-              p("• Unggah file dan lihat hasil analisisnya!")
+              fluidRow(
+                box(title = "🎯 Fitur Unggulan Platform", status = "info", solidHeader = TRUE, width = 6,
+                    div(class = "stats-highlight",
+                        h4("✅ Analisis Data Contoh Terintegrasi", style = "margin: 0;"),
+                        p("Eksplorasi berbagai jenis beras dengan faktor cuaca", style = "margin: 5px 0 0 0;")
+                    ),
+                    div(class = "stats-highlight",
+                        h4("🔧 Import Data Kustom Fleksibel", style = "margin: 0;"),
+                        p("Upload dan analisis data Anda sendiri", style = "margin: 5px 0 0 0;")
+                    ),
+                    div(class = "stats-highlight",
+                        h4("📈 Visualisasi Data Interaktif", style = "margin: 0;"),
+                        p("Grafik modern dan interpretasi mendalam", style = "margin: 5px 0 0 0;")
+                    ),
+                    div(class = "stats-highlight",
+                        h4("🧮 Model Regresi Linier Berganda", style = "margin: 0;"),
+                        p("Analisis inferensia dengan validasi model", style = "margin: 5px 0 0 0;")
+                    )
+                ),
+                
+                box(title = "📚 Panduan Cepat", status = "warning", solidHeader = TRUE, width = 6,
+                    h4("🚀 Langkah-langkah Penggunaan:"),
+                    tags$ol(
+                      tags$li("📊 Kunjungi tab 'Metadata Statistik' untuk memahami konsep analisis"),
+                      tags$li("📈 Pilih 'Data Contoh' untuk eksplorasi analisis beras dan cuaca"),
+                      tags$li("📁 Atau gunakan 'Import Data Custom' untuk data Anda sendiri"),
+                      tags$li("📋 Lihat 'Statistik Deskriptif' untuk ringkasan data"),
+                      tags$li("📉 Eksplorasi 'Visualisasi Data' untuk pola dan tren"),
+                      tags$li("🔬 Analisis lengkap di 'Model Regresi & Hasil'")
+                    ),
+                    br(),
+                    downloadButton("downloadGuidebook", "📥 Unduh Panduan Lengkap", class = "btn-primary btn-lg")
+                )
+              ),
+              
+              fluidRow(
+                box(title = "🎥 Tutorial Video Interaktif", status = "success", solidHeader = TRUE, width = 12,
+                    div(style = "text-align: center;",
+                        tags$iframe(width = "100%", height = "400", 
+                                   src = "https://www.youtube.com/embed/S5Tk0lxBLfA?si=DTkoaFLNXQ-3fAb2", 
+                                   frameborder = "0", 
+                                   allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", 
+                                   allowfullscreen = TRUE,
+                                   style = "max-width: 800px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);")
+                    )
+                )
+              )
+      ),
+      
+      # Halaman Metadata Statistik (BARU)
+      tabItem(tabName = "metadata",
+              fluidRow(
+                box(title = "📊 Metadata Kegiatan dan Variabel Statistik", 
+                    status = "primary", solidHeader = TRUE, width = 12,
+                    div(style = "text-align: center; padding: 20px;",
+                        h2("🔬 Pusat Informasi Metodologi Statistik", style = "color: #2C3E50;"),
+                        p("Memahami konsep, metode, dan variabel yang digunakan dalam analisis", style = "font-size: 16px; color: #34495E;")
+                    )
+                )
+              ),
+              
+              fluidRow(
+                box(title = "📈 Kegiatan Statistik Yang Dilakukan", 
+                    status = "info", solidHeader = TRUE, width = 6,
+                    div(class = "metadata-item",
+                        h4("🧮 1. Analisis Deskriptif", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("📊 Perhitungan ukuran pemusatan (mean, median, modus)"),
+                        p("📏 Perhitungan ukuran penyebaran (standar deviasi, varians)"),
+                        p("📋 Identifikasi nilai minimum dan maksimum"),
+                        p("🎯 Analisis distribusi data dan identifikasi outlier")
+                    ),
+                    
+                    div(class = "metadata-item",
+                        h4("🔍 2. Analisis Inferensia", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("📈 Regresi Linier Berganda (Multiple Linear Regression)"),
+                        p("🧪 Uji Signifikansi Parameter (t-test)"),
+                        p("📊 Uji Kelayakan Model (F-test)"),
+                        p("🎯 Analisis Koefisien Determinasi (R²)")
+                    ),
+                    
+                    div(class = "metadata-item",
+                        h4("✅ 3. Validasi Model", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("🔬 Uji Normalitas Residual (Shapiro-Wilk Test)"),
+                        p("📊 Uji Homoskedastisitas (Breusch-Pagan Test)"),
+                        p("🔢 Uji Multikolinearitas (Variance Inflation Factor)"),
+                        p("📈 Analisis Residual dan Leverage")
+                    )
+                ),
+                
+                box(title = "📋 Variabel Statistik dalam Analisis", 
+                    status = "warning", solidHeader = TRUE, width = 6,
+                    div(class = "metadata-item",
+                        h4("🎯 Variabel Dependen (Y)", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("💰 Harga Beras (Rupiah per kilogram)"),
+                        p("📊 Jenis: Variabel kuantitatif kontinu"),
+                        p("🎯 Peran: Variabel yang diprediksi/dijelaskan"),
+                        p("📈 Skala: Rasio dengan nilai nol absolut")
+                    ),
+                    
+                    div(class = "metadata-item",
+                        h4("📈 Variabel Independen (X)", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("🌡️ X₁: Suhu Rata-rata (°Celsius)"),
+                        p("🌧️ X₂: Curah Hujan (milimeter)"),
+                        p("📊 Jenis: Variabel kuantitatif kontinu"),
+                        p("🎯 Peran: Variabel prediktor/penjelas"),
+                        p("📏 Skala: Interval dan Rasio")
+                    ),
+                    
+                    div(class = "metadata-item",
+                        h4("🔢 Variabel Turunan", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("📉 Residual: Selisih nilai aktual dan prediksi"),
+                        p("📊 Fitted Values: Nilai prediksi model"),
+                        p("🎯 Standardized Residuals: Residual yang dinormalisasi"),
+                        p("📈 Leverage: Pengaruh observasi terhadap model")
+                    )
+                )
+              ),
+              
+              fluidRow(
+                box(title = "🔬 Metode dan Teknik Analisis", 
+                    status = "success", solidHeader = TRUE, width = 12,
+                    fluidRow(
+                      column(4,
+                             div(class = "stats-highlight",
+                                 h4("📊 Preprocessing Data", style = "margin: 0;"),
+                                 br(),
+                                 p("🧹 Pembersihan Data Missing Values"),
+                                 p("📈 Deteksi dan Penanganan Outlier (IQR Method)"),
+                                 p("🔄 Transformasi dan Standarisasi Data"),
+                                 p("✅ Validasi Konsistensi Data")
+                             )
+                      ),
+                      column(4,
+                             div(class = "stats-highlight",
+                                 h4("🧮 Model Statistik", style = "margin: 0;"),
+                                 br(),
+                                 p("📈 Y = β₀ + β₁X₁ + β₂X₂ + ε"),
+                                 p("🎯 Estimasi Parameter dengan OLS"),
+                                 p("📊 Interval Kepercayaan Parameter"),
+                                 p("🔬 Pengujian Hipotesis Statistik")
+                             )
+                      ),
+                      column(4,
+                             div(class = "stats-highlight",
+                                 h4("📉 Diagnostik Model", style = "margin: 0;"),
+                                 br(),
+                                 p("📈 Analisis Grafik Residual"),
+                                 p("🔍 Q-Q Plot untuk Normalitas"),
+                                 p("📊 Scatter Plot Predicted vs Actual"),
+                                 p("⚡ Cook's Distance untuk Outlier")
+                             )
+                      )
+                    )
+                )
+              ),
+              
+              fluidRow(
+                box(title = "📚 Interpretasi dan Kriteria Penilaian", 
+                    status = "primary", solidHeader = TRUE, width = 12,
+                    fluidRow(
+                      column(6,
+                             h4("🎯 Kriteria Evaluasi Model:", style = "color: #2C3E50;"),
+                             tags$ul(
+                               tags$li("📊 R² ≥ 0.8: Model Sangat Baik"),
+                               tags$li("📈 R² 0.6-0.8: Model Baik"),
+                               tags$li("⚠️ R² 0.4-0.6: Model Sedang"),
+                               tags$li("❌ R² < 0.4: Model Kurang Baik"),
+                               br(),
+                               tags$li("✅ p-value < 0.05: Signifikan"),
+                               tags$li("🎯 VIF < 5: Tidak ada Multikolinearitas"),
+                               tags$li("📈 Residual Normal: Model Valid")
+                             )
+                      ),
+                      column(6,
+                             h4("🔍 Interpretasi Koefisien:", style = "color: #2C3E50;"),
+                             tags$ul(
+                               tags$li("➕ β > 0: Hubungan Positif"),
+                               tags$li("➖ β < 0: Hubungan Negatif"),
+                               tags$li("📏 |β|: Besaran Pengaruh"),
+                               tags$li("🎯 SE(β): Ketidakpastian Estimasi"),
+                               br(),
+                               tags$li("📊 t-statistik: Kekuatan Hubungan"),
+                               tags$li("🔬 Confidence Interval: Rentang Nilai"),
+                               tags$li("📈 Praktical Significance vs Statistical")
+                             )
+                      )
+                    )
+                )
+              )
       ),
       
       # Halaman Data Contoh
       tabItem(tabName = "example_data",
-              h3("Contoh Data yang Telah Diproses"),
-              p("Ini adalah contoh data yang menunjukkan hubungan antara harga berbagai jenis beras dengan suhu rata-rata dan curah hujan."),
               fluidRow(
-                box(title = "Pilih Jenis Beras untuk Analisis", status = "info", solidHeader = TRUE, width = 12,
-                    p("Pilih jenis beras yang ingin Anda analisis hubungannya dengan faktor cuaca:"),
-                    uiOutput("y_variable_selector"),
-                    br(),
-                    p(em("Setiap jenis beras memiliki karakteristik harga yang berbeda dan mungkin merespons faktor cuaca dengan cara yang berbeda pula."))
+                box(title = "📈 Eksplorasi Data Contoh Beras & Cuaca", 
+                    status = "primary", solidHeader = TRUE, width = 12,
+                    div(style = "text-align: center; padding: 15px;",
+                        h3("🌾 Analisis Hubungan Harga Beras dengan Faktor Cuaca", style = "color: #2C3E50; margin-bottom: 15px;"),
+                        p("Jelajahi bagaimana suhu rata-rata dan curah hujan mempengaruhi harga berbagai jenis beras", 
+                          style = "font-size: 16px; color: #34495E;")
+                    )
                 )
               ),
+              
               fluidRow(
-                box(title = "Data Contoh yang Telah Dibersihkan", status = "primary", solidHeader = TRUE,
-                    tableOutput("exampleCleanedData"),
-                    width = 12)
+                box(title = "🎯 Pilih Jenis Beras untuk Analisis", status = "info", solidHeader = TRUE, width = 12,
+                    fluidRow(
+                      column(8,
+                             h4("🌾 Pilih Varietas Beras:", style = "color: #2C3E50; margin-bottom: 15px;"),
+                             p("Setiap jenis beras memiliki karakteristik harga yang unik dan merespons faktor cuaca dengan cara yang berbeda.", style = "margin-bottom: 15px;"),
+                             uiOutput("y_variable_selector")
+                      ),
+                      column(4,
+                             div(class = "stats-highlight",
+                                 h4("💡 Tips Analisis", style = "margin: 0;"),
+                                 br(),
+                                 p("🔍 Bandingkan berbagai jenis beras"),
+                                 p("📊 Perhatikan pola harga vs cuaca"),
+                                 p("📈 Gunakan untuk prediksi harga"),
+                                 p("🎯 Validasi dengan data historis")
+                             )
+                      )
+                    )
+                )
+              ),
+              
+              fluidRow(
+                box(title = "📊 Data Contoh yang Telah Dibersihkan", status = "success", solidHeader = TRUE, width = 12,
+                    div(style = "margin-bottom: 20px;",
+                        h4("📋 Preview Data Analisis:", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("Berikut adalah 10 baris pertama dari data yang telah dibersihkan dan siap untuk analisis:", style = "color: #34495E;")
+                    ),
+                    tableOutput("exampleCleanedData")
+                )
               )
       ),
       
       # Halaman Import Data Custom
       tabItem(tabName = "import_custom",
-              h3("Unggah Data Anda Sendiri"),
-              p("Ikuti langkah-langkah berikut untuk menganalisis data Anda:"),
-              
               fluidRow(
-                box(title = "Langkah 1: Tentukan Jumlah Faktor", status = "info", solidHeader = TRUE, width = 12,
-                    p("Berapa banyak faktor (variabel independen) yang ingin Anda analisis pengaruhnya?"),
-                    numericInput("num_vars", "Jumlah Faktor yang Akan Dianalisis:", 
-                                 value = 2, min = 1, max = 10, step = 1),
-                    p(em("Contoh: Jika ingin menganalisis pengaruh suhu dan curah hujan terhadap harga beras, maka pilih 2"))
+                box(title = "📁 Platform Import Data Kustom", 
+                    status = "primary", solidHeader = TRUE, width = 12,
+                    div(style = "text-align: center; padding: 15px;",
+                        h3("🚀 Analisis Data Anda Sendiri", style = "color: #2C3E50; margin-bottom: 15px;"),
+                        p("Ikuti wizard 3 langkah mudah untuk menganalisis data Anda dengan teknologi regresi linier berganda", 
+                          style = "font-size: 16px; color: #34495E;")
+                    )
                 )
               ),
               
               fluidRow(
-                box(title = "Langkah 2: Beri Nama untuk Setiap Variabel", status = "warning", solidHeader = TRUE, width = 12,
-                    p("Berikan nama yang mudah dipahami untuk setiap variabel:"),
+                box(title = "🔢 Langkah 1: Konfigurasi Analisis", status = "info", solidHeader = TRUE, width = 12,
+                    fluidRow(
+                      column(8,
+                             h4("📊 Tentukan Struktur Data Anda:", style = "color: #2C3E50; margin-bottom: 15px;"),
+                             p("Berapa banyak faktor (variabel independen) yang ingin Anda analisis pengaruhnya terhadap variabel target?", style = "margin-bottom: 15px;"),
+                             numericInput("num_vars", "Jumlah Faktor Prediktor:", 
+                                          value = 2, min = 1, max = 10, step = 1),
+                             p(em("Contoh: Untuk menganalisis pengaruh suhu dan curah hujan terhadap harga beras, pilih 2"), style = "color: #7F8C8D;")
+                      ),
+                      column(4,
+                             div(class = "stats-highlight",
+                                 h4("📋 Panduan Cepat", style = "margin: 0;"),
+                                 br(),
+                                 p("🎯 1 Variabel Target (Y)"),
+                                 p("📈 1-10 Faktor Prediktor (X)"),
+                                 p("🧮 Minimum 20 observasi"),
+                                 p("💾 Format file: .xlsx")
+                             )
+                      )
+                    )
+                )
+              ),
+              
+              fluidRow(
+                box(title = "🏷️ Langkah 2: Penamaan Variabel", status = "warning", solidHeader = TRUE, width = 12,
+                    h4("✏️ Berikan Nama Deskriptif untuk Setiap Variabel:", style = "color: #2C3E50; margin-bottom: 15px;"),
+                    p("Nama yang jelas akan memudahkan interpretasi hasil analisis.", style = "margin-bottom: 20px;"),
                     uiOutput("variable_labels_ui"),
-                    p(em("Tips: Gunakan nama yang jelas seperti 'Harga Beras', 'Suhu Rata-rata', 'Curah Hujan', dll."))
+                    div(style = "background: #f8f9fa; padding: 15px; border-radius: 10px; margin-top: 15px;",
+                        h5("💡 Tips Penamaan Variabel:", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("• Gunakan nama yang spesifik: 'Harga Beras per Kg' bukan 'Harga'", style = "margin: 5px 0;"),
+                        p("• Sertakan satuan jika diperlukan: 'Suhu Rata-rata (°C)'", style = "margin: 5px 0;"),
+                        p("• Hindari singkatan yang tidak jelas", style = "margin: 5px 0;")
+                    )
                 )
               ),
               
               fluidRow(
-                box(title = "Langkah 3: Unggah File Excel", status = "success", solidHeader = TRUE, width = 12,
-                    p("Format file Excel yang dibutuhkan:"),
-                    p("• Kolom pertama: Data variabel yang ingin diprediksi (Y)"),
-                    p("• Kolom selanjutnya: Data faktor-faktor yang mempengaruhi (X1, X2, X3, ...)"),
-                    p("• Semua data harus berupa angka"),
-                    br(),
-                    fileInput("file_custom", "Pilih File Excel:", accept = ".xlsx"),
-                    actionButton("process_custom_data", "Proses Data", class = "btn-success btn-lg")
+                box(title = "📤 Langkah 3: Upload & Pemrosesan Data", status = "success", solidHeader = TRUE, width = 12,
+                    fluidRow(
+                      column(8,
+                             h4("📂 Format File Excel yang Dibutuhkan:", style = "color: #2C3E50; margin-bottom: 15px;"),
+                             div(style = "background: #e8f5e8; padding: 15px; border-radius: 10px; margin-bottom: 20px;",
+                                 h5("✅ Struktur Data:", style = "color: #27AE60; margin-bottom: 10px;"),
+                                 tags$ul(
+                                   tags$li("📊 Kolom pertama: Variabel target yang ingin diprediksi (Y)"),
+                                   tags$li("📈 Kolom berikutnya: Faktor-faktor prediktor (X1, X2, X3, ...)"),
+                                   tags$li("🔢 Semua data harus berupa angka (numerik)"),
+                                   tags$li("🚫 Tidak boleh ada sel kosong atau teks"),
+                                   tags$li("📏 Minimal 20 baris data untuk analisis yang valid")
+                                 )
+                             ),
+                             fileInput("file_custom", "🗂️ Pilih File Excel Anda:", 
+                                      accept = ".xlsx",
+                                      buttonLabel = "📁 Browse...",
+                                      placeholder = "Belum ada file yang dipilih"),
+                             br(),
+                             actionButton("process_custom_data", "🚀 Proses & Analisis Data", 
+                                         class = "btn-success btn-lg",
+                                         style = "width: 100%; padding: 15px; font-size: 16px;")
+                      ),
+                      column(4,
+                             div(class = "stats-highlight",
+                                 h4("📋 Checklist", style = "margin: 0;"),
+                                 br(),
+                                 p("✅ Data dalam format angka"),
+                                 p("✅ Tidak ada sel kosong"),
+                                 p("✅ Minimal 20 observasi"),
+                                 p("✅ File format .xlsx"),
+                                 p("✅ Kolom terstruktur rapi")
+                             )
+                      )
+                    )
                 )
               ),
               
               fluidRow(
-                box(title = "Informasi Variabel Anda", status = "primary", solidHeader = TRUE, width = 12,
-                    verbatimTextOutput("variable_info")
+                box(title = "📋 Informasi Variabel Anda", status = "primary", solidHeader = TRUE, width = 6,
+                    div(style = "min-height: 200px;",
+                        verbatimTextOutput("variable_info")
+                    )
+                ),
+                box(title = "📊 Status Pemrosesan", status = "info", solidHeader = TRUE, width = 6,
+                    div(style = "min-height: 200px; padding: 20px; text-align: center;",
+                        div(id = "processing-status",
+                            h4("⏳ Menunggu Data", style = "color: #7F8C8D; margin-bottom: 15px;"),
+                            p("Upload file Excel Anda untuk memulai pemrosesan", style = "color: #95A5A6;"),
+                            hr(),
+                            p("🔄 Sistem akan otomatis:", style = "color: #34495E; font-weight: 600; margin-bottom: 10px;"),
+                            tags$ul(style = "text-align: left; color: #7F8C8D;",
+                              tags$li("Membersihkan data missing values"),
+                              tags$li("Mendeteksi dan menghapus outlier"),
+                              tags$li("Memvalidasi format data"),
+                              tags$li("Menyiapkan untuk analisis regresi")
+                            )
+                        )
+                    )
                 )
               ),
               
               fluidRow(
-                box(title = "Data Anda yang Telah Dibersihkan", status = "primary", solidHeader = TRUE,
-                    tableOutput("customCleanedData"),
-                    width = 12)
+                box(title = "📊 Preview Data yang Telah Dibersihkan", status = "success", solidHeader = TRUE, width = 12,
+                    div(style = "margin-bottom: 20px;",
+                        h4("👀 Preview Data Siap Analisis:", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("Berikut adalah preview 10 baris pertama dari data Anda yang telah dibersihkan dan siap untuk dianalisis:", style = "color: #34495E;")
+                    ),
+                    tableOutput("customCleanedData")
+                )
               )
       ),
       
       # Halaman Statistik Deskriptif
       tabItem(tabName = "desc_stats",
-              h3("Ringkasan Statistik Data"),
-              p("Lihat ringkasan statistik dasar dari data yang Anda pilih:"),
-              radioButtons("data_choice_stats", "Pilih Data:", 
-                           choices = c("Data Contoh" = "example", 
-                                       "Data Saya" = "custom"),
-                           selected = "example"),
               fluidRow(
-                box(title = "Ringkasan Statistik", status = "primary", solidHeader = TRUE,
-                    verbatimTextOutput("descStats"),
-                    width = 12)
+                box(title = "📋 Analisis Statistik Deskriptif", 
+                    status = "primary", solidHeader = TRUE, width = 12,
+                    div(style = "text-align: center; padding: 15px;",
+                        h3("📊 Eksplorasi Karakteristik Data", style = "color: #2C3E50; margin-bottom: 15px;"),
+                        p("Memahami distribusi, pemusatan, dan penyebaran data melalui statistik deskriptif komprehensif", 
+                          style = "font-size: 16px; color: #34495E;")
+                    )
+                )
+              ),
+              
+              fluidRow(
+                box(title = "🎯 Pilihan Sumber Data", status = "info", solidHeader = TRUE, width = 12,
+                    fluidRow(
+                      column(8,
+                             h4("📊 Pilih Dataset untuk Analisis:", style = "color: #2C3E50; margin-bottom: 15px;"),
+                             radioButtons("data_choice_stats", "Sumber Data:", 
+                                          choices = c("📈 Data Contoh (Beras & Cuaca)" = "example", 
+                                                      "📁 Data Kustom Saya" = "custom"),
+                                          selected = "example"),
+                             p("Pilih sumber data yang ingin Anda analisis karakteristik statistiknya.", style = "color: #7F8C8D;")
+                      ),
+                      column(4,
+                             div(class = "stats-highlight",
+                                 h4("📈 Yang Akan Dianalisis", style = "margin: 0;"),
+                                 br(),
+                                 p("📊 Ukuran Pemusatan"),
+                                 p("📏 Ukuran Penyebaran"),
+                                 p("🎯 Nilai Ekstrem"),
+                                 p("📋 Ringkasan Komprehensif")
+                             )
+                      )
+                    )
+                )
+              ),
+              
+              fluidRow(
+                box(title = "📊 Hasil Analisis Statistik Deskriptif", status = "success", solidHeader = TRUE, width = 12,
+                    div(style = "margin-bottom: 20px;",
+                        h4("📋 Interpretasi Statistik:", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("Analisis ini memberikan gambaran komprehensif tentang karakteristik data Anda:", style = "color: #34495E; margin-bottom: 20px;"),
+                        fluidRow(
+                          column(3,
+                                 div(class = "stats-highlight",
+                                     h5("📊 Pemusatan", style = "margin: 0; font-size: 14px;"),
+                                     p("Mean, Median", style = "margin: 5px 0 0 0; font-size: 12px;")
+                                 )
+                          ),
+                          column(3,
+                                 div(class = "stats-highlight",
+                                     h5("📏 Penyebaran", style = "margin: 0; font-size: 14px;"),
+                                     p("Min, Max, Range", style = "margin: 5px 0 0 0; font-size: 12px;")
+                                 )
+                          ),
+                          column(3,
+                                 div(class = "stats-highlight",
+                                     h5("🎯 Variabilitas", style = "margin: 0; font-size: 14px;"),
+                                     p("Standar Deviasi", style = "margin: 5px 0 0 0; font-size: 12px;")
+                                 )
+                          ),
+                          column(3,
+                                 div(class = "stats-highlight",
+                                     h5("📈 Distribusi", style = "margin: 0; font-size: 14px;"),
+                                     p("Skewness, Outlier", style = "margin: 5px 0 0 0; font-size: 12px;")
+                                 )
+                          )
+                        )
+                    ),
+                    verbatimTextOutput("descStats")
+                )
               )
       ),
       
       # Halaman Visualisasi Data
       tabItem(tabName = "visualization",
-              h3("Grafik dan Visualisasi"),
-              p("Lihat berbagai grafik untuk memahami pola data Anda:"),
-              radioButtons("data_choice_viz", "Pilih Data:", 
-                           choices = c("Data Contoh" = "example", 
-                                       "Data Saya" = "custom"),
-                           selected = "example"),
               fluidRow(
-                box(title = "Grafik Residual vs Prediksi", status = "primary", solidHeader = TRUE,
-                    p("Grafik ini menunjukkan seberapa baik model memprediksi data. Titik-titik yang tersebar acak menunjukkan model yang baik."),
-                    plotOutput("residualsPlot", height = 300),
-                    width = 12)
+                box(title = "📉 Pusat Visualisasi Data Interaktif", 
+                    status = "primary", solidHeader = TRUE, width = 12,
+                    div(style = "text-align: center; padding: 15px;",
+                        h3("📊 Eksplorasi Visual Model Regresi", style = "color: #2C3E50; margin-bottom: 15px;"),
+                        p("Analisis mendalam kualitas model melalui grafik diagnostik dan visualisasi prediksi", 
+                          style = "font-size: 16px; color: #34495E;")
+                    )
+                )
               ),
+              
               fluidRow(
-                box(title = "Distribusi Kesalahan Prediksi", status = "warning", solidHeader = TRUE,
-                    p("Grafik ini menunjukkan distribusi kesalahan prediksi. Bentuk seperti lonceng menunjukkan model yang baik."),
-                    plotOutput("histResiduals", height = 300),
-                    width = 12)
+                box(title = "🎯 Pilihan Sumber Data", status = "info", solidHeader = TRUE, width = 12,
+                    fluidRow(
+                      column(8,
+                             h4("📊 Pilih Dataset untuk Visualisasi:", style = "color: #2C3E50; margin-bottom: 15px;"),
+                             radioButtons("data_choice_viz", "Sumber Data:", 
+                                          choices = c("📈 Data Contoh (Beras & Cuaca)" = "example", 
+                                                      "📁 Data Kustom Saya" = "custom"),
+                                          selected = "example"),
+                             p("Grafik akan menampilkan analisis diagnostik model regresi dari dataset yang dipilih.", style = "color: #7F8C8D;")
+                      ),
+                      column(4,
+                             div(class = "stats-highlight",
+                                 h4("📊 Jenis Visualisasi", style = "margin: 0;"),
+                                 br(),
+                                 p("📈 Residual vs Fitted"),
+                                 p("📊 Distribusi Residual"),
+                                 p("🎯 Actual vs Predicted"),
+                                 p("✅ Validasi Model")
+                             )
+                      )
+                    )
+                )
               ),
+              
               fluidRow(
-                box(title = "Perbandingan Nilai Asli vs Prediksi", status = "success", solidHeader = TRUE,
-                    p("Grafik ini membandingkan nilai asli dengan hasil prediksi. Semakin dekat ke garis merah, semakin akurat prediksinya."),
-                    plotOutput("predictedVsActual", height = 300),
-                    width = 12)
+                box(title = "📈 Grafik Residual vs Prediksi", status = "primary", solidHeader = TRUE, width = 12,
+                    div(style = "margin-bottom: 20px;",
+                        h4("🔍 Analisis Pola Residual:", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("Grafik ini menunjukkan hubungan antara nilai prediksi dengan residual (kesalahan prediksi). Pola acak menandakan model yang baik.", style = "color: #34495E; margin-bottom: 15px;"),
+                        div(style = "background: #e3f2fd; padding: 10px; border-radius: 8px;",
+                            p("💡 Interpretasi: Titik tersebar acak = Model valid | Pola tertentu = Perlu perbaikan model", style = "margin: 0; color: #1976D2; font-weight: 500;")
+                        )
+                    ),
+                    plotOutput("residualsPlot", height = 400)
+                )
+              ),
+              
+              fluidRow(
+                box(title = "📊 Distribusi Kesalahan Prediksi", status = "warning", solidHeader = TRUE, width = 12,
+                    div(style = "margin-bottom: 20px;",
+                        h4("📈 Histogram Residual:", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("Distribusi kesalahan prediksi menunjukkan normalitas residual. Bentuk lonceng (normal) menandakan asumsi model terpenuhi.", style = "color: #34495E; margin-bottom: 15px;"),
+                        div(style = "background: #fff3e0; padding: 10px; border-radius: 8px;",
+                            p("💡 Interpretasi: Bentuk lonceng = Residual normal | Skewed/bimodal = Perlu transformasi data", style = "margin: 0; color: #F57C00; font-weight: 500;")
+                        )
+                    ),
+                    plotOutput("histResiduals", height = 400)
+                )
+              ),
+              
+              fluidRow(
+                box(title = "🎯 Perbandingan Nilai Asli vs Prediksi", status = "success", solidHeader = TRUE, width = 12,
+                    div(style = "margin-bottom: 20px;",
+                        h4("📊 Akurasi Prediksi Model:", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("Scatter plot yang membandingkan nilai aktual dengan prediksi model. Kedekatan dengan garis diagonal menunjukkan akurasi tinggi.", style = "color: #34495E; margin-bottom: 15px;"),
+                        div(style = "background: #e8f5e8; padding: 10px; border-radius: 8px;",
+                            p("💡 Interpretasi: Dekat garis merah = Prediksi akurat | Tersebar jauh = Prediksi kurang akurat", style = "margin: 0; color: #388E3C; font-weight: 500;")
+                        )
+                    ),
+                    plotOutput("predictedVsActual", height = 400)
+                )
               )
       ),
       
       # Halaman Model Regresi & Hasil
       tabItem(tabName = "regression",
-              h3("Hasil Analisis dan Kesimpulan"),
-              p("Lihat hasil analisis lengkap dan interpretasi yang mudah dipahami:"),
-              radioButtons("data_choice_reg", "Pilih Data:", 
-                           choices = c("Data Contoh" = "example", 
-                                       "Data Saya" = "custom"),
-                           selected = "example"),
               fluidRow(
-                box(title = "Detail Teknis Model", status = "primary", solidHeader = TRUE,
-                    verbatimTextOutput("regressionSummary"),
-                    width = 12)
+                box(title = "🔬 Laboratorium Analisis Regresi", 
+                    status = "primary", solidHeader = TRUE, width = 12,
+                    div(style = "text-align: center; padding: 15px;",
+                        h3("🧮 Hasil Analisis dan Kesimpulan Statistik", style = "color: #2C3E50; margin-bottom: 15px;"),
+                        p("Interpretasi komprehensif model regresi linier berganda dengan validasi statistik mendalam", 
+                          style = "font-size: 16px; color: #34495E;")
+                    )
+                )
               ),
+              
               fluidRow(
-                box(title = "Kesimpulan dan Interpretasi", status = "info", solidHeader = TRUE,
-                    verbatimTextOutput("regressionInterpretation"),
-                    width = 12)
+                box(title = "🎯 Pilihan Sumber Data", status = "info", solidHeader = TRUE, width = 12,
+                    fluidRow(
+                      column(8,
+                             h4("📊 Pilih Dataset untuk Analisis Regresi:", style = "color: #2C3E50; margin-bottom: 15px;"),
+                             radioButtons("data_choice_reg", "Sumber Data:", 
+                                          choices = c("📈 Data Contoh (Beras & Cuaca)" = "example", 
+                                                      "📁 Data Kustom Saya" = "custom"),
+                                          selected = "example"),
+                             p("Sistem akan melakukan analisis regresi linier berganda lengkap dengan interpretasi yang mudah dipahami.", style = "color: #7F8C8D;")
+                      ),
+                      column(4,
+                             div(class = "stats-highlight",
+                                 h4("🔬 Analisis Meliputi", style = "margin: 0;"),
+                                 br(),
+                                 p("📊 Koefisien Regresi"),
+                                 p("🧪 Uji Signifikansi"),
+                                 p("📈 R² dan Model Fit"),
+                                 p("✅ Validasi Asumsi")
+                             )
+                      )
+                    )
+                )
+              ),
+              
+              fluidRow(
+                box(title = "📊 Detail Teknis Model Regresi", status = "primary", solidHeader = TRUE, width = 12,
+                    div(style = "margin-bottom: 20px;",
+                        h4("🔬 Output Statistik Lengkap:", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("Berikut adalah hasil lengkap dari analisis regresi linier berganda termasuk koefisien, standard error, t-value, dan p-value:", style = "color: #34495E; margin-bottom: 15px;"),
+                        div(style = "background: #e3f2fd; padding: 10px; border-radius: 8px; margin-bottom: 15px;",
+                            fluidRow(
+                              column(3,
+                                     p("📈 Estimate: Koefisien regresi", style = "margin: 0; color: #1976D2; font-size: 13px;")
+                              ),
+                              column(3,
+                                     p("📏 Std. Error: Standar error", style = "margin: 0; color: #1976D2; font-size: 13px;")
+                              ),
+                              column(3,
+                                     p("🧪 t value: Statistik uji", style = "margin: 0; color: #1976D2; font-size: 13px;")
+                              ),
+                              column(3,
+                                     p("⭐ Pr(>|t|): Nilai p", style = "margin: 0; color: #1976D2; font-size: 13px;")
+                              )
+                            )
+                        )
+                    ),
+                    verbatimTextOutput("regressionSummary")
+                )
+              ),
+              
+              fluidRow(
+                box(title = "🎯 Interpretasi dan Kesimpulan Praktis", status = "success", solidHeader = TRUE, width = 12,
+                    div(style = "margin-bottom: 20px;",
+                        h4("📋 Analisis Hasil yang Mudah Dipahami:", style = "color: #2C3E50; margin-bottom: 10px;"),
+                        p("Interpretasi komprehensif dari hasil analisis regresi dalam bahasa yang mudah dipahami dengan rekomendasi praktis:", style = "color: #34495E; margin-bottom: 15px;"),
+                        div(style = "background: #e8f5e8; padding: 10px; border-radius: 8px; margin-bottom: 15px;",
+                            fluidRow(
+                              column(4,
+                                     p("🎯 Kualitas Model: Seberapa baik model memprediksi", style = "margin: 0; color: #388E3C; font-size: 13px;")
+                              ),
+                              column(4,
+                                     p("📊 Pengaruh Faktor: Mana yang signifikan berpengaruh", style = "margin: 0; color: #388E3C; font-size: 13px;")
+                              ),
+                              column(4,
+                                     p("💡 Rekomendasi: Saran untuk langkah selanjutnya", style = "margin: 0; color: #388E3C; font-size: 13px;")
+                              )
+                            )
+                        )
+                    ),
+                    verbatimTextOutput("regressionInterpretation")
+                )
               )
       )
     )
@@ -600,7 +1395,7 @@ server <- function(input, output, session) {
       cat("   Rata-rata:", round(mean(data$Tavg_X1, na.rm = TRUE), 2), "°C\n")
       cat("   Median:", round(median(data$Tavg_X1, na.rm = TRUE), 2), "°C\n\n")
       
-      cat("🌧 Curah Hujan:\n")
+      cat("🌧 Curah HUJAN:\n")
       cat("   Min:", min(data$RR_X2, na.rm = TRUE), "mm\n")
       cat("   Max:", max(data$RR_X2, na.rm = TRUE), "mm\n")
       cat("   Rata-rata:", round(mean(data$RR_X2, na.rm = TRUE), 2), "mm\n")
